@@ -10,7 +10,7 @@ use App\Policies\EventPolicy;
 use App\Policies\RegistrationPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         Gate::policy(Company::class, CompanyPolicy::class);
         Gate::policy(Event::class, EventPolicy::class);
         Gate::policy(Registration::class, RegistrationPolicy::class);
