@@ -6,14 +6,16 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
-    && docker-php-ext-configure gd \
+    libonig-dev \
+    && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install \
         exif \
-        pdo \
         pdo_mysql \
         mbstring \
         gd \
-        zip
+        zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
